@@ -45,6 +45,7 @@ public abstract class SourcesValidationTest extends FileBasedTestSuite implement
     Map<String, Tags> TOKEN_CATEGORIES;
     Map<String, NodeType> NODE_CATEGORIES;
 
+    // BeforeEach
     protected void initialize() {
         TOKEN_CATEGORIES = new HashMap<>();
         NODE_CATEGORIES = new HashMap<>();

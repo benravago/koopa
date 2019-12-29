@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import java.net.URL?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="koopa.app.MainApp" prefHeight="600.0" prefWidth="800.0" >
+
+ <stylesheets>
+  <URL value="@MainFrame.css" />
+ </stylesheets>   
+
+ <children>
+
+  <MenuBar AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+   <menus>
+    <Menu text="File">
+     <items>
+      <MenuItem text="Parse ..." onAction="#doFileParse" >
+       <accelerator><KeyCodeCombination control="DOWN" code="O" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <MenuItem text="Reload File" onAction="#doFileReload" >
+       <accelerator><KeyCodeCombination control="DOWN" code="R" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <MenuItem text="Debug" onAction="#doFileDebug" >
+       <accelerator><KeyCodeCombination control="DOWN" code="D" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <MenuItem text="Close File" onAction="#doFileClose" >
+       <accelerator><KeyCodeCombination control="DOWN" code="W" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <SeparatorMenuItem/>
+      <MenuItem text="Quit parsing" onAction="#doQuitParsing" >
+      <accelerator><KeyCodeCombination control="DOWN" code="B" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <SeparatorMenuItem/>
+      <MenuItem text="Clear all results ..." onAction="#doFileClear" >
+      </MenuItem>
+      <MenuItem text="Export bacth results to CSV ..." onAction="#doFileExport" >
+       <accelerator><KeyCodeCombination control="DOWN" code="E" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+      </MenuItem>
+      <SeparatorMenuItem/>
+      <MenuItem text="Exit" onAction="#doExit" >
+      </MenuItem>      
+     </items>
+    </Menu>
+    <Menu text="Parser settings">
+      <items>
+       <Menu text="Source format">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleSourceFormat" />
+         </fx:define>
+         <RadioMenuItem text="Fixed" id="SourceFormat_Fixed" toggleGroup="$toggleSourceFormat" />
+         <RadioMenuItem text="Free" id="SourceFormat_Free" toggleGroup="$toggleSourceFormat" />
+         <RadioMenuItem text="Variable" id="SourceFormat_Variable" toggleGroup="$toggleSourceFormat" />
+        </items>
+       </Menu>
+       <Menu text="Preprocessing">
+        <items>
+         <fx:define>
+           <ToggleGroup fx:id="togglePreprocessing" />
+         </fx:define>
+         <RadioMenuItem text="Enabled" id="Preprocessing_Enabled" toggleGroup="$togglePreprocessing" />
+         <RadioMenuItem text="Disabled" id="Preprocessing_Disabled" toggleGroup="$togglePreprocessing" />
+         <SeparatorMenuItem/>
+         <MenuItem text="Copybook Paths ..." onAction="#doCopybookPaths" />
+        </items>
+       </Menu>
+       <SeparatorMenuItem/>
+       <MenuItem text="File Extensions ..." onAction="#doFileExtensions" />
+       <MenuItem text="Line Endings ..." onAction="#doLineEndings" />
+       <MenuItem text="Tabs ..." onAction="#doTabs" />
+       <MenuItem text="COBOL words ..." onAction="#doCobolWords" />
+      </items>
+    </Menu>
+    <Menu text="Navigation">
+      <items>
+       <MenuItem text="Go to line ..." onAction="#doGoToLine" >
+        <accelerator><KeyCodeCombination control="DOWN" code="L" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+       </MenuItem>
+       <MenuItem text="Find ..." onAction="#doFind" >
+        <accelerator><KeyCodeCombination control="DOWN" code="F" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+       </MenuItem>
+       <MenuItem text="Find again" onAction="#doFindAgain" >
+        <accelerator><KeyCodeCombination control="DOWN" code="G" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+       </MenuItem>
+      </items>
+     </Menu>
+    <Menu text="Syntax tree">
+      <items>
+       <MenuItem text="Show grammer ..." onAction="#doShowGrammar" />
+       <SeparatorMenuItem/>
+       <MenuItem text="Show AST ..." onAction="#doShowAst" />
+       <MenuItem text="Export to XML ..." onAction="#doExportToXml" />
+       <MenuItem text="Find by XPath ..." onAction="#doFindByXpath" >
+        <accelerator><KeyCodeCombination control="DOWN" code="K" shift="ANY" alt="ANY" meta="ANY" shortcut="ANY" /></accelerator>
+       </MenuItem>
+      </items>
+    </Menu>
+    <Menu text="Logging">
+      <items>
+
+       <Menu text="Grammar">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleGrammar" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="Grammar_Off"   toggleGroup="$toggleGrammar" />
+         <SeparatorMenuItem/>
+         <RadioMenuItem text="Fatal" id="Grammar_Fatal" toggleGroup="$toggleGrammar" />
+         <RadioMenuItem text="Error" id="Grammar_Error" toggleGroup="$toggleGrammar" />
+         <RadioMenuItem text="Warn"  id="Grammar_Warn"  toggleGroup="$toggleGrammar" /> 
+         <RadioMenuItem text="Info"  id="Grammar_Info"  toggleGroup="$toggleGrammar" /> 
+         <RadioMenuItem text="Debug" id="Grammar_Debug" toggleGroup="$toggleGrammar" />
+         <RadioMenuItem text="Trace" id="Grammar_Trace" toggleGroup="$toggleGrammar" />
+         <RadioMenuItem text="All"   id="Grammar_All"   toggleGroup="$toggleGrammar" />  
+       </items>
+       </Menu>
+       <Menu text="Line Separation">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleLineSeparation" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="LineSeparation_Off"   toggleGroup="$toggleLineSeparation" />
+         <RadioMenuItem text="Fatal" id="LineSeparation_Fatal" toggleGroup="$toggleLineSeparation" />
+         <RadioMenuItem text="Error" id="LineSeparation_Error" toggleGroup="$toggleLineSeparation" />
+         <RadioMenuItem text="Warn"  id="LineSeparation_Warn"  toggleGroup="$toggleLineSeparation" /> 
+         <RadioMenuItem text="Info"  id="LineSeparation_Info"  toggleGroup="$toggleLineSeparation" /> 
+         <RadioMenuItem text="Debug" id="LineSeparation_Debug" toggleGroup="$toggleLineSeparation" />
+         <RadioMenuItem text="Trace" id="LineSeparation_Trace" toggleGroup="$toggleLineSeparation" />
+         <RadioMenuItem text="All"   id="LineSeparation_All"   toggleGroup="$toggleLineSeparation" />  
+       </items>
+       </Menu>
+       <Menu text="Source Formatting">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleSourceFormatting" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="SourceFormatting_Off"   toggleGroup="$toggleSourceFormatting" />
+         <RadioMenuItem text="Fatal" id="SourceFormatting_Fatal" toggleGroup="$toggleSourceFormatting" />
+         <RadioMenuItem text="Error" id="SourceFormatting_Error" toggleGroup="$toggleSourceFormatting" />
+         <RadioMenuItem text="Warn"  id="SourceFormatting_Warn"  toggleGroup="$toggleSourceFormatting" /> 
+         <RadioMenuItem text="Info"  id="SourceFormatting_Info"  toggleGroup="$toggleSourceFormatting" /> 
+         <RadioMenuItem text="Debug" id="SourceFormatting_Debug" toggleGroup="$toggleSourceFormatting" />
+         <RadioMenuItem text="Trace" id="SourceFormatting_Trace" toggleGroup="$toggleSourceFormatting" />
+         <RadioMenuItem text="All"   id="SourceFormatting_All"   toggleGroup="$toggleSourceFormatting" />  
+       </items>
+       </Menu>
+       <Menu text="Compiler Directives">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleCompilerDirectives" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="CompilerDirectives_Off"   toggleGroup="$toggleCompilerDirectives" />
+         <RadioMenuItem text="Fatal" id="CompilerDirectives_Fatal" toggleGroup="$toggleCompilerDirectives" />
+         <RadioMenuItem text="Error" id="CompilerDirectives_Error" toggleGroup="$toggleCompilerDirectives" />
+         <RadioMenuItem text="Warn"  id="CompilerDirectives_Warn"  toggleGroup="$toggleCompilerDirectives" /> 
+         <RadioMenuItem text="Info"  id="CompilerDirectives_Info"  toggleGroup="$toggleCompilerDirectives" /> 
+         <RadioMenuItem text="Debug" id="CompilerDirectives_Debug" toggleGroup="$toggleCompilerDirectives" />
+         <RadioMenuItem text="Trace" id="CompilerDirectives_Trace" toggleGroup="$toggleCompilerDirectives" />
+         <RadioMenuItem text="All"   id="CompilerDirectives_All"   toggleGroup="$toggleCompilerDirectives" />  
+       </items>
+       </Menu>
+       <Menu text="Source Listing Directives">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleSourceListingDirectives" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="SourceListingDirectives_Off"   toggleGroup="$toggleSourceListingDirectives" />
+         <RadioMenuItem text="Fatal" id="SourceListingDirectives_Fatal" toggleGroup="$toggleSourceListingDirectives" />
+         <RadioMenuItem text="Error" id="SourceListingDirectives_Error" toggleGroup="$toggleSourceListingDirectives" />
+         <RadioMenuItem text="Warn"  id="SourceListingDirectives_Warn"  toggleGroup="$toggleSourceListingDirectives" /> 
+         <RadioMenuItem text="Info"  id="SourceListingDirectives_Info"  toggleGroup="$toggleSourceListingDirectives" /> 
+         <RadioMenuItem text="Debug" id="SourceListingDirectives_Debug" toggleGroup="$toggleSourceListingDirectives" />
+         <RadioMenuItem text="Trace" id="SourceListingDirectives_Trace" toggleGroup="$toggleSourceListingDirectives" />
+         <RadioMenuItem text="All"   id="SourceListingDirectives_All"   toggleGroup="$toggleSourceListingDirectives" />  
+       </items>
+       </Menu>
+       <Menu text="Program Area">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleProgramArea" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="ProgramArea_Off"   toggleGroup="$toggleProgramArea" />
+         <RadioMenuItem text="Fatal" id="ProgramArea_Fatal" toggleGroup="$toggleProgramArea" />
+         <RadioMenuItem text="Error" id="ProgramArea_Error" toggleGroup="$toggleProgramArea" />
+         <RadioMenuItem text="Warn"  id="ProgramArea_Warn"  toggleGroup="$toggleProgramArea" /> 
+         <RadioMenuItem text="Info"  id="ProgramArea_Info"  toggleGroup="$toggleProgramArea" /> 
+         <RadioMenuItem text="Debug" id="ProgramArea_Debug" toggleGroup="$toggleProgramArea" />
+         <RadioMenuItem text="Trace" id="ProgramArea_Trace" toggleGroup="$toggleProgramArea" />
+         <RadioMenuItem text="All"   id="ProgramArea_All"   toggleGroup="$toggleProgramArea" />  
+       </items>
+       </Menu>
+       <Menu text="Copy Statements">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleCopyStatements" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="CopyStatements_Off"   toggleGroup="$toggleCopyStatements" />
+         <RadioMenuItem text="Fatal" id="CopyStatements_Fatal" toggleGroup="$toggleCopyStatements" />
+         <RadioMenuItem text="Error" id="CopyStatements_Error" toggleGroup="$toggleCopyStatements" />
+         <RadioMenuItem text="Warn"  id="CopyStatements_Warn"  toggleGroup="$toggleCopyStatements" /> 
+         <RadioMenuItem text="Info"  id="CopyStatements_Info"  toggleGroup="$toggleCopyStatements" /> 
+         <RadioMenuItem text="Debug" id="CopyStatements_Debug" toggleGroup="$toggleCopyStatements" />
+         <RadioMenuItem text="Trace" id="CopyStatements_Trace" toggleGroup="$toggleCopyStatements" />
+         <RadioMenuItem text="All"   id="CopyStatements_All"   toggleGroup="$toggleCopyStatements" />  
+       </items>
+       </Menu>
+       <Menu text="Replace Statements">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleReplaceStatements" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="ReplaceStatements_Off"   toggleGroup="$toggleReplaceStatements" />
+         <RadioMenuItem text="Fatal" id="ReplaceStatements_Fatal" toggleGroup="$toggleReplaceStatements" />
+         <RadioMenuItem text="Error" id="ReplaceStatements_Error" toggleGroup="$toggleReplaceStatements" />
+         <RadioMenuItem text="Warn"  id="ReplaceStatements_Warn"  toggleGroup="$toggleReplaceStatements" /> 
+         <RadioMenuItem text="Info"  id="ReplaceStatements_Info"  toggleGroup="$toggleReplaceStatements" /> 
+         <RadioMenuItem text="Debug" id="ReplaceStatements_Debug" toggleGroup="$toggleReplaceStatements" />
+         <RadioMenuItem text="Trace" id="ReplaceStatements_Trace" toggleGroup="$toggleReplaceStatements" />
+         <RadioMenuItem text="All"   id="ReplaceStatements_All"   toggleGroup="$toggleReplaceStatements" />  
+       </items>
+       </Menu>
+       <Menu text="Replacements">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleReplacements" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="Replacements_Off"   toggleGroup="$toggleReplacements" />
+         <RadioMenuItem text="Fatal" id="Replacements_Fatal" toggleGroup="$toggleReplacements" />
+         <RadioMenuItem text="Error" id="Replacements_Error" toggleGroup="$toggleReplacements" />
+         <RadioMenuItem text="Warn"  id="Replacements_Warn"  toggleGroup="$toggleReplacements" /> 
+         <RadioMenuItem text="Info"  id="Replacements_Info"  toggleGroup="$toggleReplacements" /> 
+         <RadioMenuItem text="Debug" id="Replacements_Debug" toggleGroup="$toggleReplacements" />
+         <RadioMenuItem text="Trace" id="Replacements_Trace" toggleGroup="$toggleReplacements" />
+         <RadioMenuItem text="All"   id="Replacements_All"   toggleGroup="$toggleReplacements" />  
+       </items>
+       </Menu>
+       <Menu text="Line Continutations">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleLineContinutations" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="LineContinutations_Off"   toggleGroup="$toggleLineContinutations" />
+         <RadioMenuItem text="Fatal" id="LineContinutations_Fatal" toggleGroup="$toggleLineContinutations" />
+         <RadioMenuItem text="Error" id="LineContinutations_Error" toggleGroup="$toggleLineContinutations" />
+         <RadioMenuItem text="Warn"  id="LineContinutations_Warn"  toggleGroup="$toggleLineContinutations" /> 
+         <RadioMenuItem text="Info"  id="LineContinutations_Info"  toggleGroup="$toggleLineContinutations" /> 
+         <RadioMenuItem text="Debug" id="LineContinutations_Debug" toggleGroup="$toggleLineContinutations" />
+         <RadioMenuItem text="Trace" id="LineContinutations_Trace" toggleGroup="$toggleLineContinutations" />
+         <RadioMenuItem text="All"   id="LineContinutations_All"   toggleGroup="$toggleLineContinutations" />  
+       </items>
+       </Menu>
+       <Menu text="Inline Comments">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleInlineComments" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="InlineComments_Off"   toggleGroup="$toggleInlineComments" />
+         <RadioMenuItem text="Fatal" id="InlineComments_Fatal" toggleGroup="$toggleInlineComments" />
+         <RadioMenuItem text="Error" id="InlineComments_Error" toggleGroup="$toggleInlineComments" />
+         <RadioMenuItem text="Warn"  id="InlineComments_Warn"  toggleGroup="$toggleInlineComments" /> 
+         <RadioMenuItem text="Info"  id="InlineComments_Info"  toggleGroup="$toggleInlineComments" /> 
+         <RadioMenuItem text="Debug" id="InlineComments_Debug" toggleGroup="$toggleInlineComments" />
+         <RadioMenuItem text="Trace" id="InlineComments_Trace" toggleGroup="$toggleInlineComments" />
+         <RadioMenuItem text="All"   id="InlineComments_All"   toggleGroup="$toggleInlineComments" />  
+       </items>
+       </Menu>
+       <Menu text="Token Separation">
+        <items>
+         <fx:define>
+          <ToggleGroup fx:id="toggleTokenSeparation" />
+         </fx:define>
+         <RadioMenuItem text="Off"   id="TokenSeparation_Off"   toggleGroup="$toggleTokenSeparation" />
+         <RadioMenuItem text="Fatal" id="TokenSeparation_Fatal" toggleGroup="$toggleTokenSeparation" />
+         <RadioMenuItem text="Error" id="TokenSeparation_Error" toggleGroup="$toggleTokenSeparation" />
+         <RadioMenuItem text="Warn"  id="TokenSeparation_Warn"  toggleGroup="$toggleTokenSeparation" /> 
+         <RadioMenuItem text="Info"  id="TokenSeparation_Info"  toggleGroup="$toggleTokenSeparation" /> 
+         <RadioMenuItem text="Debug" id="TokenSeparation_Debug" toggleGroup="$toggleTokenSeparation" />
+         <RadioMenuItem text="Trace" id="TokenSeparation_Trace" toggleGroup="$toggleTokenSeparation" />
+         <RadioMenuItem text="All"   id="TokenSeparation_All"   toggleGroup="$toggleTokenSeparation" />  
+       </items>
+       </Menu>
+
+      </items>
+    </Menu>
+    <Menu text="Help">
+      <items>
+       <MenuItem text="README ..." onAction="#doReadme" />
+       <MenuItem text="Contributors ..." onAction="#doContributors" />
+       <MenuItem text="License ..." onAction="#doLicense" />
+      </items>
+    </Menu>
+   </menus>
+  </MenuBar>
+ 
+  <TabPane id="mainTabPane" tabClosingPolicy="SELECTED_TAB"
+           AnchorPane.topAnchor="27.0" AnchorPane.bottomAnchor="32.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" >
+   <tabs>
+
+    <Tab text="Overview" id="overviewTab" closable="false" >
+     <content>
+      <TableView id="overviewTable" >
+       <columns>
+        <TableColumn text="Status" />
+        <TableColumn text="Errors" />
+        <TableColumn text="Warnings" />
+        <TableColumn text="Tokens" />
+        <TableColumn text="Coverage" />
+        <TableColumn text="LOC" />
+        <TableColumn text="SLOC" />
+        <TableColumn text="CLOC" />
+        <TableColumn text="File" />
+        <TableColumn text="Path" />
+        <TableColumn text="Time (ms)" />
+       </columns>
+      </TableView>
+     </content>
+    </Tab>
+
+<!--
+    <Tab text="Untitled.CBL" id="cobolTab" >
+     <content>
+      { DetailFrame.fxml }
+     </content>
+    </Tab>
+-->
+   </tabs>
+  </TabPane>
+
+ <Label fx:id="statusLine" text="  'status'" 
+        AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+ 
+ </children>
+</AnchorPane>                         

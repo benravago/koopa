@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TreeView?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Text?>
+
+<Tab xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+     fx:controller="koopa.app.components.detail.DetailController"
+     id="cobolTab" closable="true"
+     onClosed="#tabClosed" onSelectionChanged="#tabSelection" >
+ <content>
+
+   <SplitPane dividerPositions="0.75" orientation="VERTICAL" > 
+    <items>
+   
+     <SplitPane dividerPositions="0.25" orientation="HORIZONTAL" > 
+      <items>
+       <TreeView id="cobolTree" onMouseClicked="#treeSelection" />
+       <ScrollPane id="cobolPane" style="-fx-focus-color:lightgray; -fx-faint-focus-color:transparent;">
+        <content>
+         <Group>
+          <children>
+           <Text onMouseClicked="#textSelection" id="cobolText" />
+           <Rectangle fill="TRANSPARENT" stroke="RED" strokeWidth="1.0" id="cobolWord" />
+          </children>   
+         </Group>
+        </content>
+       </ScrollPane> 
+      </items>
+     </SplitPane>
+   
+     <TabPane tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+       <Tab text="Messages" id="messagesTab" >
+        <content>
+         <TableView id="messagesTable" >
+          <columns>
+           <TableColumn text="Status"   id="messageStatus"   />
+           <TableColumn text="Line"     id="messageLine"     />
+           <TableColumn text="Char"     id="messageChar"     />
+           <TableColumn text="Token"    id="messageToken"    />
+           <TableColumn text="Message"  id="messageMessage"  />
+           <TableColumn text="Resource" id="messageResource" />
+          </columns>
+         </TableView>
+        </content>
+       </Tab>
+       <Tab text="Selection" id="selectionTab" >
+        <content>
+         <TableView id="selectionTable" >
+          <columns>
+           <TableColumn text="Path" id="selectionPath" editable="false" sortable="false" />
+           <TableColumn text="Tags" id="selectionTags" editable="false" sortable="false" />
+           <TableColumn text="Text" id="selectionText" editable="false" sortable="false" />
+           <TableColumn text="Hex"  id="selectionHex"  editable="false" sortable="false" />
+          </columns>
+         </TableView>
+        </content>
+       </Tab>
+       <Tab text="Source" id="sourceTab" >
+        <content>
+         <TextArea id="sourceText" />
+        </content>
+       </Tab>
+      </tabs>
+     </TabPane>
+   
+    </items>
+   </SplitPane>
+
+ </content>
+</Tab>

@@ -3,6 +3,8 @@ package koopa.cobol.parser;
 import java.nio.file.Path;
 
 import koopa.core.parsers.Parse;
+import koopa.core.trees.KoopaTreeBuilder;
+import koopa.core.trees.Tree;
 
 public class ParseResults {
 
@@ -82,6 +84,10 @@ public class ParseResults {
 
     public Parse getParse() {
         return parse;
+    }
+
+    public Tree getTree() {
+        return parse.getTarget(KoopaTreeBuilder.class).getTree();
     }
 
 }
